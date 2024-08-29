@@ -9,18 +9,19 @@ class Submenu {
 
 	// Constructor
 	public function __construct() {
-		add_action( 'admin_menu', [ $this, 'register_submenu' ] );
+		add_action( 'admin_menu', [ $this, 'register_submenu' ], 99999, 0);
 	}
 
 	// Register submenu
 	public function register_submenu(): void {
 		add_submenu_page(
 			DCMS_REPORTS_SUBMENU,
-			__( 'Extra Reports', 'dcms-reports-lms' ),
-			__( 'Extra Reports', 'dcms-reports-lms' ),
+			__( 'Reportes Extra', 'dcms-reports-lms' ),
+			__( 'Reportes Extra', 'dcms-reports-lms' ),
 			'manage_options',
 			'dcms-reports-lms',
-			[ $this, 'submenu_page_callback' ]
+			[ $this, 'submenu_page_callback' ],
+			2
 		);
 	}
 

@@ -34,7 +34,7 @@ final class Loader {
 		define( 'DCMS_REPORTS_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'DCMS_REPORTS_URL', plugin_dir_url( __FILE__ ) );
 		define( 'DCMS_REPORTS_BASE_NAME', plugin_basename( __FILE__ ) );
-		define( 'DCMS_REPORTS_SUBMENU', 'tools.php' );
+		define( 'DCMS_REPORTS_SUBMENU', 'stm-lms-settings' );
 	}
 
 	// Load tex domain
