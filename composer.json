@@ -1,0 +1,19 @@
+{
+  "name": "jmarreros/dcms-lms-reports",
+  "description": "Plugin para reportes extras de cursos",
+  "autoload": {
+    "psr-4": {
+      "dcms\\reports\\": "./"
+    },
+    "files": [
+      "helpers/general.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Jhon Marreros Guzmán",
+      "email": "admin@decodecms.com"
+    }
+  ],
+  "require": {}
+}
