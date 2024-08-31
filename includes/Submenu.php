@@ -27,7 +27,13 @@ class Submenu {
 
 	// Callback, show view
 	public function submenu_page_callback(): void {
-		$mensaje = mensaje();
+		wp_enqueue_script( 'lms-report-script' );
+		wp_enqueue_style( 'lms-report-style' );
+
+		$val_start = '';
+		$val_end = '';
+		$rows = [];
+
 		include_once( DCMS_REPORTS_PATH . '/views/main-screen.php' );
 	}
 }

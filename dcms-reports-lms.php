@@ -18,6 +18,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use dcms\reports\includes\Plugin;
 use dcms\reports\includes\Submenu;
+use dcms\reports\includes\Enqueue;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -61,6 +62,7 @@ final class Loader {
 		$this->add_link_plugin();
 		new Plugin();
 		new SubMenu();
+		new Enqueue();
 	}
 }
 
