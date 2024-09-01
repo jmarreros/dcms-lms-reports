@@ -13,15 +13,6 @@
             }
         });
 
-        // Reset all fields
-        $('#btn-reset-students').click(function (e) {
-            e.preventDefault();
-            $('#select-courses').empty();
-            $('#start-date').val('');
-            $('#end-date').val('');
-            $('#course-search-hint').val('');
-        });
-
         $('#btn-search-courses').click(function (e) {
             e.preventDefault();
 
@@ -29,6 +20,13 @@
             const $endDate = $('#end-date').val();
             const $courseSearchHint = $('#course-search-hint').val();
             const $courses = $('#select-courses');
+
+            // validate fill dates fields
+            if ($startDate === '' || $endDate === '') {
+                alert('Debe seleccionar un rango de fechas');
+                return;
+            }
+
 
             $.ajax({
                 url: lms_report.ajaxurl,
@@ -67,17 +65,8 @@
         $('#btn-search-students').click(function (e) {
             e.preventDefault();
 
-            // Get all selected courses
-            const $courses = $('#select-courses input[type="checkbox"]:checked');
-
-            // Get only IDs from $courses object
-            let $courses_ids = [];
-            $courses.each(function (index, course) {
-                const id = parseInt(course.value.substring(3));
-                if (id > 0) {
-                    $courses_ids.push(id);
-                }
-            });
+            // Selected courses ids
+            const $courses_ids = get_selected_courses();
 
             $.ajax({
                 url: lms_report.ajaxurl,
@@ -116,6 +105,37 @@
 
         });
 
+
+        $('#frm-export').submit(function (e) {
+            e.preventDefault();
+            // Selected courses ids
+            const $courses_ids = get_selected_courses();
+            $('#courses_ids').val($courses_ids.join(','));
+
+            if ($courses_ids.length === 0) {
+                alert('Debe seleccionar al menos un curso');
+                return;
+            }
+
+            // Submit form
+            $(this).unbind('submit').submit();
+        });
+
+
+        function get_selected_courses() {
+            // Get all selected courses
+            const $courses = $('#select-courses input[type="checkbox"]:checked');
+
+            // Get only IDs from $courses object
+            let $courses_ids = [];
+            $courses.each(function (index, course) {
+                const id = parseInt(course.value.substring(3));
+                if (id > 0) {
+                    $courses_ids.push(id);
+                }
+            });
+            return $courses_ids;
+        }
     });
 
     function block_ui($isDisabled) {

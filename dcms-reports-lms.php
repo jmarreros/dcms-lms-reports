@@ -20,6 +20,7 @@ use dcms\reports\includes\Plugin;
 use dcms\reports\includes\Submenu;
 use dcms\reports\includes\Enqueue;
 use dcms\reports\includes\Report;
+use dcms\reports\includes\Export;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -68,6 +69,7 @@ final class Loader {
 		new SubMenu();
 		new Enqueue();
 		new Report();
+		new Export();
 	}
 }
 

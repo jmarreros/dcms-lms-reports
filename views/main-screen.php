@@ -51,19 +51,17 @@ $courses_list = [];
             <section class="buttons students-search">
                 <button id="btn-search-students" class="btn-search button button-primary" disabled>Buscar alumnos
                 </button>
-                <button id="btn-reset-students" class="btn-reset button button-secondary" disabled>Limpiar</button>
 				<?php echo $loading ?>
             </section>
         </form>
 
         <section class="buttons-export">
             <form method="post" id="frm-export" class="frm-export" action="<?php echo admin_url( 'admin-post.php' ) ?>">
-                <input type="hidden" value="<?= $val_start ?>">
-                <input type="hidden" value="<?= $val_end ?>">
-                <input type="hidden" name="action" value="process_export_pin_sent">
+                <input type="hidden" name="courses_ids" id="courses_ids" value="">
+                <input type="hidden" name="action" value="process_export_data_report">
                 <button type="submit"
                         class="btn-export button button-primary"
-                        disabled><?php _e( 'Exportar', 'dcms-send-pin' ) ?></button>
+                        disabled><?php _e( 'Exportar', 'dcms-reports-lms' ) ?></button>
             </form>
         </section>
 
