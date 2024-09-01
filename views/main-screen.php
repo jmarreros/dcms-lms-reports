@@ -3,7 +3,7 @@
 /** @var string $val_end */
 /** @var array $rows */
 
-$loading = '<div class="loading" style="display:none;"><div></div><div></div><div></div><div></div></div>';
+$loading      = '<div class="loading" style="display:none;"><div></div><div></div><div></div><div></div></div>';
 $courses_list = [];
 ?>
 
@@ -62,17 +62,19 @@ $courses_list = [];
                 <input type="hidden" value="<?= $val_end ?>">
                 <input type="hidden" name="action" value="process_export_pin_sent">
                 <button type="submit"
-                        class="btn-export button button-primary" disabled><?php _e( 'Exportar', 'dcms-send-pin' ) ?></button>
+                        class="btn-export button button-primary"
+                        disabled><?php _e( 'Exportar', 'dcms-send-pin' ) ?></button>
             </form>
         </section>
 
     </header>
 
 	<?php
-	$fields = [ 'Nombre', 'Correo', 'Teléfono' ];
+	$fields = [ 'ID', 'Nombre', 'Correo', 'Teléfono' ];
 	?>
 
-    <table class="dcms-table">
+    <table id="students-courses-table" class="dcms-table">
+        <thead>
         <tr>
 			<?php
 			foreach ( $fields as $field ) {
@@ -80,11 +82,14 @@ $courses_list = [];
 			}
 			?>
         </tr>
+        </thead>
+        <tbody>
 		<?php foreach ( $rows as $row ): ?>
             <tr>
                 <td></td>
             </tr>
 		<?php endforeach; ?>
+        </tbody>
     </table>
 
 

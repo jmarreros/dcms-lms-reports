@@ -51,7 +51,8 @@ class Database {
 						SELECT DISTINCT user_id FROM $user_courses_table 
                         WHERE course_id IN (" . implode(',', $courses_ids) . ")
 				) uc ON u.ID = uc.user_id
-				LEFT JOIN $user_meta_table um ON u.ID = um.user_id AND meta_key = 'billing_phone'";
+				LEFT JOIN $user_meta_table um ON u.ID = um.user_id AND meta_key = 'billing_phone'
+				ORDER BY user_name";
 
 		return $this->wpdb->get_results( $sql, ARRAY_A );
 	}

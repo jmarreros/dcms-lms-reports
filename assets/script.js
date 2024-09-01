@@ -47,18 +47,18 @@
                 .done(function (res) {
                     $courses.empty();
                     if (res.courses.length > 0) {
-                        $courses.append('<label><input type="checkbox" value="id_0" checked> Todos </label>');
+                        $courses.append('<label><input type="checkbox" id="id_0" value="id_0" checked> Todos </label>');
                         $.each(res.courses, function (index, value) {
                             $courses.append('<label><input type="checkbox" name="courses[]" value="id_' + value.ID + '" checked> ' + value.name + '</label>');
                         });
-                    }
-                    else{
+                    } else {
                         $courses.append('<li>➜ No se encontraron cursos</li>');
                     }
                 })
                 .always(function () {
                     block_ui(false);
                     $('.courses-search .loading').hide();
+                    $('#students-courses-table tbody').empty();
                 });
 
         });
@@ -92,7 +92,22 @@
                 }
             })
                 .done(function (res) {
-                    console.log(res);
+                    const bodyTable = $('#students-courses-table tbody');
+                    $(bodyTable).empty();
+                    if (res.students.length > 0) {
+                        $.each(res.students, function (index, student) {
+                            const phone = student.user_phone ?? '';
+                            $(bodyTable).append('<tr>' +
+                                '<td>' + student.ID + '</td>' +
+                                '<td>' + student.user_name + '</td>' +
+                                '<td>' + student.user_email + '</td>' +
+                                '<td>' + phone + '</td>' +
+                                '</tr>');
+                        });
+                    } else {
+                        $(bodyTable).append('<tr><td colspan="4"><p>➜ No se encontraron estudiantes</p></td></tr>');
+                    }
+
                 })
                 .always(function () {
                     block_ui(false);
