@@ -19,6 +19,7 @@ require __DIR__ . '/vendor/autoload.php';
 use dcms\reports\includes\Plugin;
 use dcms\reports\includes\Submenu;
 use dcms\reports\includes\Enqueue;
+use dcms\reports\includes\Report;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -36,6 +37,9 @@ final class Loader {
 		define( 'DCMS_REPORTS_URL', plugin_dir_url( __FILE__ ) );
 		define( 'DCMS_REPORTS_BASE_NAME', plugin_basename( __FILE__ ) );
 		define( 'DCMS_REPORTS_SUBMENU', 'stm-lms-settings' );
+		if ( ! defined( 'DCMS_COURSE_END_DATE' ) ) {
+			define( 'DCMS_COURSE_END_DATE', 'dcms_course_end_date' );
+		}
 	}
 
 	// Load tex domain
@@ -63,6 +67,7 @@ final class Loader {
 		new Plugin();
 		new SubMenu();
 		new Enqueue();
+		new Report();
 	}
 }
 
