@@ -3,24 +3,8 @@
 /** @var string $val_end */
 /** @var array $rows */
 
-$loading = '<div class="loading"><div></div><div></div><div></div><div></div></div>';
-
-$courses_list = [
-	'0'  => 'Todos',
-	'1'  => 'Uno',
-	'2'  => 'Dos',
-	'3'  => 'Tres',
-	'4'  => 'Cuatro',
-	'5'  => 'Cinco',
-	'6'  => 'Seis',
-	'7'  => 'Siete',
-	'8'  => 'Ocho',
-	'9'  => 'Nueve',
-	'10' => 'Diez',
-	'11' => 'Once',
-	'12' => 'Doce',
-];
-''
+$loading = '<div class="loading" style="display:none;"><div></div><div></div><div></div><div></div></div>';
+$courses_list = [];
 ?>
 
 <div class="wrap report">
@@ -43,12 +27,17 @@ $courses_list = [
                 <label for="course-search-hint">Curso:</label>
                 <input type="text" id="course-search-hint" placeholder="Buscar por nombre del curso"/>
                 <button id="btn-search-courses" class="btn-search button button-primary">Filtrar</button>
-                <?php echo $loading ?>
+				<?php echo $loading ?>
             </section>
 
             <section class="courses-selection">
                 <span>Cursos encontrados:</span>
                 <ul id="select-courses">
+					<?php
+					if ( empty( $courses_list ) ) {
+						echo '<li>&nbsp;</li>';
+					}
+					?>
 					<?php foreach ( $courses_list as $key => $course ): ?>
                         <li>
                             <label class="course">
@@ -60,9 +49,10 @@ $courses_list = [
             </section>
 
             <section class="buttons students-search">
-                <button id="btn-search-students" class="btn-search button button-primary">Buscar alumnos</button>
-                <button id="btn-reset-students" class="btn-reset button button-secondary">Limpiar</button>
-	            <?php echo $loading ?>
+                <button id="btn-search-students" class="btn-search button button-primary" disabled>Buscar alumnos
+                </button>
+                <button id="btn-reset-students" class="btn-reset button button-secondary" disabled>Limpiar</button>
+				<?php echo $loading ?>
             </section>
         </form>
 
@@ -72,7 +62,7 @@ $courses_list = [
                 <input type="hidden" value="<?= $val_end ?>">
                 <input type="hidden" name="action" value="process_export_pin_sent">
                 <button type="submit"
-                        class="btn-export button button-primary"><?php _e( 'Exportar', 'dcms-send-pin' ) ?></button>
+                        class="btn-export button button-primary" disabled><?php _e( 'Exportar', 'dcms-send-pin' ) ?></button>
             </form>
         </section>
 

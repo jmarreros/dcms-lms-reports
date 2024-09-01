@@ -5,8 +5,8 @@
 
         // Check/Uncheck all checkboxes
         $('#select-courses').click(function (e) {
-            if ( e.target.type === 'checkbox' ){
-                if ( e.target.id === 'id_0' ){
+            if (e.target.type === 'checkbox') {
+                if (e.target.id === 'id_0') {
                     const isChecked = $('#' + e.target.id).prop('checked');
                     $('#select-courses input[type="checkbox"]').prop('checked', isChecked);
                 }
@@ -41,20 +41,24 @@
                     course_search_hint: $courseSearchHint
                 }, beforeSend: function () {
                     block_ui(true);
+                    $('.courses-search .loading').show();
                 }
             })
                 .done(function (res) {
                     $courses.empty();
-                    console.log(res);
-                    if ( res.courses.length > 0 ){
-                        $courses.append('<label><input type="checkbox" id="id_0" checked> Todos </label>');
+                    if (res.courses.length > 0) {
+                        $courses.append('<label><input type="checkbox" value="id_0" checked> Todos </label>');
                         $.each(res.courses, function (index, value) {
                             $courses.append('<label><input type="checkbox" name="courses[]" value="id_' + value.ID + '" checked> ' + value.name + '</label>');
                         });
                     }
+                    else{
+                        $courses.append('<li>➜ No se encontraron cursos</li>');
+                    }
                 })
                 .always(function () {
                     block_ui(false);
+                    $('.courses-search .loading').hide();
                 });
 
         });
@@ -63,41 +67,38 @@
         $('#btn-search-students').click(function (e) {
             e.preventDefault();
 
-            const $startDate = $('#start-date').val();
-            const $endDate = $('#end-date').val();
             // Get all selected courses
             const $courses = $('#select-courses input[type="checkbox"]:checked');
 
             // Get only IDs from $courses object
-            const $courses_ids = [];
-            $courses.each(function (index, value) {
-                $courses_ids.push(value.value);
+            let $courses_ids = [];
+            $courses.each(function (index, course) {
+                const id = parseInt(course.value.substring(3));
+                if (id > 0) {
+                    $courses_ids.push(id);
+                }
             });
 
-            console.log($courses);
-            console.log($courses_ids);
+            $.ajax({
+                url: lms_report.ajaxurl,
+                type: 'post',
+                data: {
+                    action: 'dcms_get_students_by_courses_id',
+                    nonce: lms_report.nonce_lms_report,
+                    courses: $courses_ids
+                }, beforeSend: function () {
+                    block_ui(true);
+                    $('.students-search .loading').show();
+                }
+            })
+                .done(function (res) {
+                    console.log(res);
+                })
+                .always(function () {
+                    block_ui(false);
+                    $('.students-search .loading').hide();
+                });
 
-        //
-        //     $.ajax({
-        //         url: lms_report.ajaxurl,
-        //         type: 'post',
-        //         data: {
-        //             action: 'dcms_get_students_by_courses',
-        //             nonce: lms_report.nonce_lms_report,
-        //             start_date: $startDate,
-        //             end_date: $endDate,
-        //             courses: $course
-        //         }, beforeSend: function () {
-        //             block_ui(true);
-        //         }
-        //     })
-        //         .done(function (res) {
-        //             console.log(res);
-        //         })
-        //         .always(function () {
-        //             block_ui(false);
-        //         });
-        //
         });
 
     });
@@ -108,6 +109,7 @@
         $('#btn-search-courses').prop('disabled', $isDisabled);
         $('#select-courses input').prop('disabled', $isDisabled);
         $('.students-search button').prop('disabled', $isDisabled);
+        $('.buttons-export .btn-export').prop('disabled', $isDisabled);
     }
 
 
