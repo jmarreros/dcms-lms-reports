@@ -15,7 +15,6 @@ class Export {
 	// Export data
 	public function export_data_report(): void {
 
-		error_log( print_r( 'Entro exportación', true ) );
 		$courses_ids = $_POST['courses_ids'];
 
 		// Check if the data is empty
