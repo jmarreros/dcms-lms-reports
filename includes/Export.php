@@ -2,9 +2,6 @@
 
 namespace dcms\reports\includes;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 // Class for the operations of plugin
 class Export {
 
@@ -24,37 +21,49 @@ class Export {
 
 		$courses_ids = explode( ',', $courses_ids );
 
-		$db = new Database();
+		$db   = new Database();
+		$rows = $db->get_students_by_courses( $courses_ids );
 
-		$spreadsheet = new Spreadsheet();
-		$writer      = new Xlsx( $spreadsheet );
-
-		$sheet = $spreadsheet->getActiveSheet();
-
-		// Headers
-		$sheet->setCellValue( 'A1', 'Identificativo' );
-		$sheet->setCellValue( 'B1', 'Nombre' );
-		$sheet->setCellValue( 'C1', 'Correo' );
-		$sheet->setCellValue( 'D1', 'Teléfono' );
-
-		// Get data from table
-		$data = $db->get_students_by_courses( $courses_ids );
-
-		$i = 2;
-		foreach ( $data as $row ) {
-			$sheet->setCellValue( 'A' . $i, $row['ID'] );
-			$sheet->setCellValue( 'B' . $i, $row['user_name'] );
-			$sheet->setCellValue( 'C' . $i, $row['user_email'] );
-			$sheet->setCellValue( 'D' . $i, $row['user_phone'] );
-			$i ++;
+		$data   = [];
+		$data[] = [ 'ID', 'Nombre', 'Correo', 'Teléfono' ];
+		foreach ( $rows as $row ) {
+			$data[] = [ $row['ID'], $row['user_name'], $row['user_email'], $row['user_phone'] ];
 		}
 
-		$filename = 'lista_estudiantes.xlsx';
+		$this->download_send_headers( "lista_estudiantes_" . date( "Y-m-d" ) . ".csv" );
+		echo $this->array_to_csv( $data );
+		die();
+	}
 
-		header( 'Content-Type: application/vnd.ms-excel' );
-		header( 'Content-Disposition: attachment;filename=' . $filename );
-		header( 'Cache-Control: max-age=0' );
-		$writer->save( 'php://output' );
+	private function array_to_csv( array &$array ) {
+		if ( count( $array ) == 0 ) {
+			return null;
+		}
+		ob_start();
+		$df = fopen( "php://output", 'w' );
+		foreach ( $array as $row ) {
+			fputcsv( $df, $row );
+		}
+		fclose( $df );
+
+		return ob_get_clean();
+	}
+
+	private function download_send_headers( $filename ): void {
+		// disable caching
+		$now = gmdate( "D, d M Y H:i:s" );
+		header( "Expires: Tue, 03 Jul 2001 06:00:00 GMT" );
+		header( "Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate" );
+		header( "Last-Modified: {$now} GMT" );
+
+		// force download
+		header( "Content-Type: application/force-download" );
+		header( "Content-Type: application/octet-stream" );
+		header( "Content-Type: application/download" );
+
+		// disposition / encoding on response body
+		header( "Content-Disposition: attachment;filename={$filename}" );
+		header( "Content-Transfer-Encoding: binary" );
 	}
 
 }
