@@ -3,7 +3,7 @@
 Plugin Name: Extra Reports LMS
 Plugin URI: https://decodecms.com
 Description: Add extra reports of courses
-Version: 1.0
+Version: 1.2
 Author: Jhon Marreros Guzmán
 Author URI: https://decodecms.com
 Text Domain: dcms-reports-lms
@@ -33,7 +33,7 @@ final class Loader {
 
 	// Define all the constants we need
 	public function define_constants(): void {
-		define( 'DCMS_REPORTS_VERSION', '1.0' );
+		define( 'DCMS_REPORTS_VERSION', '1.2' );
 		define( 'DCMS_REPORTS_PATH', plugin_dir_path( __FILE__ ) );
 		define( 'DCMS_REPORTS_URL', plugin_dir_url( __FILE__ ) );
 		define( 'DCMS_REPORTS_BASE_NAME', plugin_basename( __FILE__ ) );
