@@ -55,8 +55,6 @@ class Database {
 				GROUP BY u.ID, user_login, user_name, user_email, user_phone
 				ORDER BY user_name";
 
-		error_log(print_r($sql,true));
-
 		return $this->wpdb->get_results( $sql, ARRAY_A );
 	}
 }
