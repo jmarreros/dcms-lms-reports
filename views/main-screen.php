@@ -68,7 +68,7 @@ $courses_list = [];
     </header>
 
 	<?php
-	$fields = [ 'ID', 'Nombre', 'Correo', 'Teléfono' ];
+	$fields = [ 'ID', 'Nombre', 'Correo', 'Teléfono', 'Cursos' ];
 	?>
 
     <table id="students-courses-table" class="dcms-table">

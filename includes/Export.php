@@ -15,9 +15,9 @@ class Export {
 		$courses_ids = $_POST['courses_ids'];
 
 		// Check if the data is empty
-		if ( empty( $courses_ids ) ) {
-			return;
-		}
+//		if ( empty( $courses_ids ) ) {
+//			return;
+//		}
 
 		$courses_ids = explode( ',', $courses_ids );
 
@@ -25,9 +25,9 @@ class Export {
 		$rows = $db->get_students_by_courses( $courses_ids );
 
 		$data   = [];
-		$data[] = [ 'ID', 'Nombre', 'Correo', 'Teléfono' ];
+		$data[] = [ 'ID', 'Nombre', 'Correo', 'Teléfono', 'Cursos' ];
 		foreach ( $rows as $row ) {
-			$data[] = [ $row['ID'], $row['user_name'], $row['user_email'], $row['user_phone'] ];
+			$data[] = [ $row['ID'], $row['user_name'], $row['user_email'], $row['user_phone'], $row['courses'] ];
 		}
 
 		$this->download_send_headers( "lista_estudiantes_" . date( "Y-m-d" ) . ".csv" );

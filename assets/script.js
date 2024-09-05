@@ -68,6 +68,8 @@
             // Selected courses ids
             const $courses_ids = get_selected_courses();
 
+            $('#courses_ids').val($courses_ids.join(',')); // For export
+
             $.ajax({
                 url: lms_report.ajaxurl,
                 type: 'post',
@@ -91,6 +93,7 @@
                                 '<td>' + student.user_name + '</td>' +
                                 '<td>' + student.user_email + '</td>' +
                                 '<td>' + phone + '</td>' +
+                                '<td>' + student.courses + '</td>' +
                                 '</tr>');
                         });
                     } else {
@@ -108,12 +111,9 @@
 
         $('#frm-export').submit(function (e) {
             e.preventDefault();
-            // Selected courses ids
-            const $courses_ids = get_selected_courses();
-            $('#courses_ids').val($courses_ids.join(','));
 
-            if ($courses_ids.length === 0) {
-                alert('Debe seleccionar al menos un curso');
+            if ( $('#courses_ids').val() === '') {
+                alert('No hay alumnos a exportar');
                 return;
             }
 

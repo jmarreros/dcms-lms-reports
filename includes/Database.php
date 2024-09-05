@@ -44,7 +44,7 @@ class Database {
 	                display_name user_name, 
 	                user_email, 
 	                um.meta_value user_phone,
-	                GROUP_CONCAT(c.post_title) courses
+	                GROUP_CONCAT(c.post_title SEPARATOR ', ') courses
 				FROM $user_table u
 				INNER JOIN (
 						SELECT DISTINCT user_id, course_id FROM $user_courses_table 
